@@ -20,8 +20,11 @@ class DishDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         populateView()
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
+        view.addGestureRecognizer(tapGesture)
     }
     
     private func populateView() {
@@ -32,6 +35,8 @@ class DishDetailViewController: UIViewController {
     }
     
     @IBAction func placeOrderBtnClicked(_ sender: UIButton) {
+        nameField.resignFirstResponder()
+
         guard let name = nameField.text?.trimmingCharacters(in: .whitespaces),
               !name.isEmpty else {
             SVProgressHUD.showError(withStatus: "Please enter your name")
@@ -49,4 +54,7 @@ class DishDetailViewController: UIViewController {
         }
     }
     
+    @objc func hideKeyboard() {
+        view.endEditing(true)
+    }
 }
